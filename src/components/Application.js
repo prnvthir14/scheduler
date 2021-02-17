@@ -7,7 +7,7 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 
 // import "src/components/Appointment";
-import Appointment from "src/components/Appointment";
+import Appointment from "components/Appointment";
 
 const appointments = [
   {
@@ -113,7 +113,7 @@ export default function Application(props) {
     />
       </section>
       <section className="schedule">
-            
+      {appointment}      
       <Appointment key="last" time="5pm" /> 
       </section>
     </main>

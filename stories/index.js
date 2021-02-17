@@ -11,7 +11,7 @@ import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewListItem";
 import InterviewerList from "components/InterviewerList";
 //import apointment component and appointment styles.scss
-import Appointment from "components/Appointment/index_appointment";
+import Appointment from "components/Appointment";
 import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
