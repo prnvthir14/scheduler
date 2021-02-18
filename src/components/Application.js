@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "components/Application.scss";
 
@@ -8,6 +8,9 @@ import DayList from "components/DayList";
 
 // import "src/components/Appointment";
 import Appointment from "components/Appointment";
+
+const axios = require('axios').default;
+
 
 const appointments = [
   {
@@ -52,26 +55,8 @@ const appointments = [
   }
 ];
 
-//DayList 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
 
-const appointment =appointments.map((eachAppointment)=> {
+const appointment = appointments.map((eachAppointment)=> {
   return(
     <Appointment key = {eachAppointment.id}{...eachAppointment} />    
   )
@@ -81,14 +66,30 @@ const appointment =appointments.map((eachAppointment)=> {
 
 export default function Application(props) {
   
-  const [day, setDay] = useState("Monday")
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+    appointments: {}
+  });
+
+  useEffect(() => {
+    axios.get("/api/days").then(response => setDays(response.data));
+  }, []);
+
+
   
-  const chooseDay = () => {
 
-    setDay(props.day);
+  // const chooseDay = () => {
 
+  //   setDay(props.day);
+
+  // }
+  const setDay = day => setState({ ...state, day });
+
+  const setDays = (days) => {
+    setState(prev => ({ ...prev, days }));
   }
-
 
   return (
     <main className="layout">
@@ -101,8 +102,8 @@ export default function Application(props) {
     <hr className="sidebar__separator sidebar--centered" />
     <nav className="sidebar__menu" >
     <DayList
-    days={days}
-    day={day}
+    days={state.days}
+    day={state.day}
     setDay={day => console.log(day)}
     />  
     </nav>
