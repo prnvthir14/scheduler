@@ -2,6 +2,7 @@ import React from 'react';
 import InterviewListItem from 'components/InterviewListItem';
 
 import "components/InterviewList.scss";
+import "components/InterviewListItem.scss";
 
 export default function InterviewerList(props){
   //props contain:
@@ -10,7 +11,7 @@ export default function InterviewerList(props){
   // setInterviewer:function - a function that accepts an interviewer id
   
   //check how he console logs props in vid
-  console.log(props)
+  console.log('intervierList:',props)
   
   //use this to generate interviewerListItem components
   // const listedItem = props.interviewers.map((interviewer) => (
@@ -33,7 +34,7 @@ export default function InterviewerList(props){
         key={interviewer.id}
         name={interviewer.name}
         avatar={interviewer.avatar}
-        selected={interviewer.id === props.interviewer}
+        selected={interviewer.id === props.value}
         setInterviewer={event => props.setInterviewer(interviewer.id)}
       />
     );

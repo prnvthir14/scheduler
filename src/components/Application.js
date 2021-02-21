@@ -10,7 +10,9 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment";
 
 
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
+
+import useVisualMode from "hooks/useVisualMode"
 
 
 const axios = require('axios').default;
@@ -22,14 +24,11 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {} 
   });
 
-  const dailyAppointments = getAppointmentsForDay(state,state.day);
-  
-
   const setDay = day => setState({ ...state, day });
-
 
   useEffect(()=> {
     Promise.all([
@@ -45,20 +44,46 @@ export default function Application(props) {
     })
   },[])
 
-
+  const dailyAppointments = getAppointmentsForDay(state,state.day);
+  const dailyInterviewers = getInterviewersForDay(state,state.day);
   
+  function bookInterview (id, newInterview) {
+    const appointmentsCopy = { ...state.appointments };
+    const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
+    appointmentsCopy[id] = newAppointment;
+    setState({ ...state, appointments: appointmentsCopy });
+  }
+
+
+
   //map function 
   const appointments = dailyAppointments.map(appointment => {
   
     const interview = getInterview(state, appointment.interview);
+
+    //
+    const interviewer = function () {
+      dailyInterviewers.forEach((interviewer) => {
+        if (appointment.interview.interviewer === interviewer.id) {
+          return interviewer;
+        }
+      });
+    };
+ 
+
     return (
     <Appointment 
-    key ={appointment.id}
-    id ={appointment.id}
-    time ={appointment.time}
-    interview ={interview}
+    key = {appointment.id}
+    id = {appointment.id}
+    time = {appointment.time}
+    interview = {interview}
+    interviewers = {dailyInterviewers}  
+    interviewer = {interviewer}
+    bookInterview = {bookInterview}
+
     />
     );
+
   });
 
  // const chooseDay = () => {

@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 export default function InterviewerListItem(props) {
    //
-   console.log(props);
+   console.log('intervierweListItem:',props);
 
    //props contain:
    // id:number - the id of the interviewer
@@ -24,16 +24,17 @@ export default function InterviewerListItem(props) {
    
    return (        
 
-      <li className = {interviewerClass} 
-       onClick = {props.setInterviewer}
-       >
+      <li 
+      className={interviewerClass} 
+      onClick={props.setInterviewer}
+      key = {props.id}>
       <img
         className="interviewers__item-image"
         src={props.avatar}
         alt={props.name}
       />
       {props.selected && props.name}
-      </li>
+    </li>
       
    );   
 
