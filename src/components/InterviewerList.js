@@ -4,27 +4,16 @@ import InterviewListItem from 'components/InterviewListItem';
 import "components/InterviewList.scss";
 import "components/InterviewListItem.scss";
 
-export default function InterviewerList(props){
+import PropTypes from 'prop-types';
+
+function InterviewerList(props){
   //props contain:
   // interviewers:array - an array of objects containing the information of each interviewer
   // interviewer:number - the id of an interviewer
   // setInterviewer:function - a function that accepts an interviewer id
   
   //check how he console logs props in vid
-  console.log('intervierList:',props)
-  
-  //use this to generate interviewerListItem components
-  // const listedItem = props.interviewers.map((interviewer) => (
-
-  //   //console.log('hi')
-  //    <InterviewListItem
-  //    key = {interviewer} // id
-  //    name = {interviewer.name} //name
-  //    avatar = {interviewer.avatar} // avatar
-  //    setInterviewer = {props.setInterviewer} //
-  //   // key = {interviewer}
-  //   // key = {interviewer}
-  //   />
+  //console.log('intervierList:',props)
 
   // ));
 
@@ -47,14 +36,15 @@ export default function InterviewerList(props){
       <ul className="interviewers__list">{listedItem}</ul>
     </section>
 
-  );
-
-
-
-
-  
+  ); 
 
 }
+
+InterviewerList.propTypes = {
+  interviewers: PropTypes.array.isRequired
+}; 
+
+export default InterviewerList
 
 
 /* template html from DayList.js

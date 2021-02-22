@@ -37,11 +37,23 @@ export default function Appointment(props){
 
     };
 
-    transition(SAVING);
-    props.bookInterview(props.id, interview)
-    .then(()=>{transition(SHOW)})
-    .catch(error => transition(ERROR_SAVE, true));;    
+    if (!(name)) {
 
+      alert('Hey, Name needs to be entered.')
+  
+
+    } else if(!(interviewer)) {
+  
+      alert('Hey, Select an interviewer Please!')
+    
+    } else {
+      
+      transition(SAVING);
+      props.bookInterview(props.id, interview)
+      .then(()=>{transition(SHOW)})
+      .catch(error => transition(ERROR_SAVE, true));;    
+    
+    }
   }
 
   function deleteAppointment() {

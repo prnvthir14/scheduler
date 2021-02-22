@@ -32,16 +32,17 @@ const save = function () {
  return(
   <main className="appointment__card appointment__card--create">
   <section className="appointment__card-left">
-   <form autoComplete="off" onSubmit={event => event.preventDefault()}>
+   <form autoComplete="off" onSubmit={event => event.preventDefault()} >
      <input
        className="appointment__create-input text--semi-bold"
-       name="name"
+       name="name" 
        type="text"
        placeholder="Enter Student Name"
        onChange ={event => setName(event.target.value)}
+       required
      />
    </form>
-   <InterviewerList interviewers={props.interviewers} value={interviewer}  setInterviewer= {setInterviewer}
+   <InterviewerList interviewers={props.interviewers} value={interviewer}  setInterviewer= {setInterviewer} 
    />
     </section>
     <section className="appointment__card-right">

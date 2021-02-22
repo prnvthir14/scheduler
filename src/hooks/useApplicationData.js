@@ -42,27 +42,24 @@ export default function useApplicationData() {
   
   function bookInterview (id, interview) {
 
-    // const appointmentsCopy = { ...state.appointments };
-    // const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
-    // appointmentsCopy[id] = newAppointment;
-    //apmnts
     const appointment = {...state.appointments[id], interview: interview };      
     const appointments = { ...state.appointments, [id]: appointment };
-    //console.log('STATE>DAYS', getDay(id))
-    let day = getDay(id)
+    
+    let day = getDay(id);
+
     let new_day = {
       ...day,
       spots: day.spots - 1
     };
-    console.log('newDAY', new_day)
+    
     let new_days = state.days
+    
     for (let i = 0; i < state.days.length; i++){
       if(state.days[i].id === new_day.id){
         new_days.splice(i, 1, new_day)
       }
     }
-    console.log(`new days: ${new_days}`)
-
+    
     return axios.put(`/api/appointments/${id}`, {interview})
     .then(()=> {
 
@@ -78,11 +75,12 @@ export default function useApplicationData() {
   function cancelInterview(id, interview) {
 
     let day = getDay(id)
+    
     let new_day = {
       ...day,
       spots: day.spots + 1
     };
-    console.log('newDAY', new_day)
+    
     let new_days = state.days
     for (let i = 0; i < state.days.length; i++){
       if(state.days[i].id === new_day.id){
