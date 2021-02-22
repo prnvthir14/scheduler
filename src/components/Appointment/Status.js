@@ -11,8 +11,9 @@ export default function Status (props) {
       className="appointment__status-image"
       src="images/status.png"
       alt="Loading"
+
       />
-      <h1 className="text--semi-bold">{props.string}</h1>
+      <h1 className="text--semi-bold">{props.message}</h1>
     </main>
   )
 };

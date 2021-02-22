@@ -30,31 +30,72 @@ export default function Application(props) {
 
   const setDay = day => setState({ ...state, day });
 
-  useEffect(()=> {
-    Promise.all([
-    
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers")
-    
-    ]).then((all) => {
-      console.log(all)
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));      
+  function getData() {
+    return Promise.all([
+      Promise.resolve(axios.get("/api/days")),
+      Promise.resolve(axios.get("/api/appointments")),
+      Promise.resolve(axios.get("/api/interviewers"))
+    ]).then(all => {
+      return setState(prev => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data
+      }));
+    });
+  }
 
-    })
-  },[])
-
-  const dailyAppointments = getAppointmentsForDay(state,state.day);
-  const dailyInterviewers = getInterviewersForDay(state,state.day);
+  useEffect(() => {
+    getData();
+  }, []);
+  
+  
+  //newAppointment
+  //
   
   function bookInterview (id, newInterview) {
+
     const appointmentsCopy = { ...state.appointments };
     const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
     appointmentsCopy[id] = newAppointment;
     setState({ ...state, appointments: appointmentsCopy });
+    //console.log('STATE line 62',state.appointments)
+    // return axios.put(`/api/appointments/${id}`, { newAppointment }).then(getData).catch((err)=>{console.log('error LINE 63:', err)});
+    return axios.put(`/api/appointments/${id}`, newAppointment)
+    .then(()=> {
+
+      const appointment = {...state.appointments[id], interview: newInterview };      
+      const appointments = { ...state.appointments, [id]: appointment };
+      setState({ ...state, appointments: appointments });
+      
+
+    })
+    .catch((err)=>{console.log('error LINE 63:', err)});
+
   }
 
+  function cancelInterview(id, interview) {
+    interview = null;
+    const apptURLId = `/api/appointments/${id}`;
+  
+    return axios.delete(apptURLId, { interview }).then(() => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview },
+      };
+  
+      const appointments = { ...state.appointments, [id]: appointment };
+  
+      setState({ ...state, appointments: appointments });
+    });
+  }
+ 
 
+
+
+
+  const dailyAppointments = getAppointmentsForDay(state,state.day);
+  const dailyInterviewers = getInterviewersForDay(state,state.day);
 
   //map function 
   const appointments = dailyAppointments.map(appointment => {
@@ -80,6 +121,7 @@ export default function Application(props) {
     interviewers = {dailyInterviewers}  
     interviewer = {interviewer}
     bookInterview = {bookInterview}
+    cancelInterview = {cancelInterview}
 
     />
     );

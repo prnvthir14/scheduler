@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 export default function InterviewerListItem(props) {
    //
-   console.log('intervierweListItem:',props);
+   //console.log('intervierweListItem:',props);
 
    //props contain:
    // id:number - the id of the interviewer

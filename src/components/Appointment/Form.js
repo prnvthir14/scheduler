@@ -7,7 +7,7 @@ export default function Form(props){
 const [name, setName] = useState(props.name || "");
 const [interviewer, setInterviewer] = useState(props.value || null)
 // const [error, setError] = useState("");
-console.log('PROPS. form.js - ', props); 
+//console.log('PROPS. form.js - ', props); 
  
 //Helper function to clear all fields
 const reset = () => {
