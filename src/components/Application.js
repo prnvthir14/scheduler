@@ -90,6 +90,26 @@ export default function Application(props) {
     });
   }
  
+  function editInterview (id, newInterview) {
+
+    const appointmentsCopy = { ...state.appointments };
+    const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
+    appointmentsCopy[id] = newAppointment;
+    setState({ ...state, appointments: appointmentsCopy });
+    //console.log('STATE line 62',state.appointments)
+    // return axios.put(`/api/appointments/${id}`, { newAppointment }).then(getData).catch((err)=>{console.log('error LINE 63:', err)});
+    return axios.put(`/api/appointments/${id}`, newAppointment)
+    .then(()=> {
+
+      const appointment = {...state.appointments[id], interview: newInterview };      
+      const appointments = { ...state.appointments, [id]: appointment };
+      setState({ ...state, appointments: appointments });
+      
+
+    })
+    .catch((err)=>{console.log('error LINE 63:', err)});
+
+  }
 
 
 
@@ -122,6 +142,7 @@ export default function Application(props) {
     interviewer = {interviewer}
     bookInterview = {bookInterview}
     cancelInterview = {cancelInterview}
+    editInterview = {editInterview}
 
     />
     );
