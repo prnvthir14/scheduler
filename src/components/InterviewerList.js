@@ -11,7 +11,7 @@ export default function InterviewerList(props){
   // setInterviewer:function - a function that accepts an interviewer id
   
   //check how he console logs props in vid
-  //console.log('intervierList:',props)
+  console.log('intervierList:',props)
   
   //use this to generate interviewerListItem components
   // const listedItem = props.interviewers.map((interviewer) => (

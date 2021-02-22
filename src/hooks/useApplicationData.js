@@ -7,7 +7,8 @@ export default function useApplicationData() {
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {}, 
+    remainingSpotsForDay:[]
   });
   
   // reloads data from the database, and then setState
@@ -29,29 +30,66 @@ export default function useApplicationData() {
   useEffect(() => {
     getData();
   }, []);
-  
-  function bookInterview (id, newInterview) {
 
-    const appointmentsCopy = { ...state.appointments };
-    const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
-    appointmentsCopy[id] = newAppointment;
-    setState({ ...state, appointments: appointmentsCopy });
-    //console.log('STATE line 62',state.appointments)
-    // return axios.put(`/api/appointments/${id}`, { newAppointment }).then(getData).catch((err)=>{console.log('error LINE 63:', err)});
-    return axios.put(`/api/appointments/${id}`, newAppointment)
+
+  function getDay (id) {
+    //loop through state.days
+    let days = state.days.filter((day) => {
+      return day.appointments.includes(id)
+    })
+    return days[0]
+  }
+  
+  function bookInterview (id, interview) {
+
+    // const appointmentsCopy = { ...state.appointments };
+    // const newAppointment = { ...appointmentsCopy[id], interview: newInterview };
+    // appointmentsCopy[id] = newAppointment;
+    //apmnts
+    const appointment = {...state.appointments[id], interview: interview };      
+    const appointments = { ...state.appointments, [id]: appointment };
+    //console.log('STATE>DAYS', getDay(id))
+    let day = getDay(id)
+    let new_day = {
+      ...day,
+      spots: day.spots - 1
+    };
+    console.log('newDAY', new_day)
+    let new_days = state.days
+    for (let i = 0; i < state.days.length; i++){
+      if(state.days[i].id === new_day.id){
+        new_days.splice(i, 1, new_day)
+      }
+    }
+    console.log(`new days: ${new_days}`)
+
+    return axios.put(`/api/appointments/${id}`, {interview})
     .then(()=> {
 
-      const appointment = {...state.appointments[id], interview: newInterview };      
-      const appointments = { ...state.appointments, [id]: appointment };
-      setState({ ...state, appointments: appointments });
+
+      setState({ ...state, appointments: appointments, days: new_days});
       
 
     })
-    .catch((err)=>{console.log('error LINE 63:', err)});
+    .catch((err)=>{console.log('error LINE 51:', err)});
 
   }
   
   function cancelInterview(id, interview) {
+
+    let day = getDay(id)
+    let new_day = {
+      ...day,
+      spots: day.spots + 1
+    };
+    console.log('newDAY', new_day)
+    let new_days = state.days
+    for (let i = 0; i < state.days.length; i++){
+      if(state.days[i].id === new_day.id){
+        new_days.splice(i, 1, new_day)
+      }
+    }
+    
     interview = null;
     const apptURLId = `/api/appointments/${id}`;
   
@@ -63,14 +101,25 @@ export default function useApplicationData() {
   
       const appointments = { ...state.appointments, [id]: appointment };
   
-      setState({ ...state, appointments: appointments });
+      setState({ ...state, appointments: appointments, days: new_days });
     });
   }
   
   return { state, setState, getData, bookInterview, cancelInterview };
+
+
 }
  
+// export function spotsRemaining () {
 
+
+
+  
+
+
+
+
+// }
 
 
 
