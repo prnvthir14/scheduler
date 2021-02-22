@@ -39,15 +39,17 @@ export default function Appointment(props){
 
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(()=>{transition(SHOW)});    
+    .then(()=>{transition(SHOW)})
+    .catch(error => transition(ERROR_SAVE, true));;    
 
   }
 
   function deleteAppointment() {
-    transition(DELETE);
+    transition(DELETE, true);
     props.cancelInterview(props.id).then(() => {
       transition(EMPTY);
-    });
+    })
+    .catch(error => transition(ERROR_DELETE, true));;
   }
 
 
@@ -101,10 +103,23 @@ export default function Appointment(props){
         onClose={() => back(Show)}
       />
     )}
+    {mode === ERROR_SAVE && (
+      <Error
+        message="There was an error saving your appointment"
+        onClose={back}
+      />
+    )}
+    {mode === ERROR_DELETE && (
+      <Error
+        message="There was an error deleting your appointment"
+        onClose={back}
+      />
+    )}
 
-
-      </article>
+    </article> 
+ )
 
  
- )
+
+ 
 }
