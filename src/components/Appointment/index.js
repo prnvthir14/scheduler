@@ -37,23 +37,11 @@ export default function Appointment(props){
 
     };
 
-    if (!(name)) {
-
-      alert('Hey, Name needs to be entered.')
-  
-
-    } else if(!(interviewer)) {
-  
-      alert('Hey, Select an interviewer Please!')
-    
-    } else {
-      
-      transition(SAVING);
-      props.bookInterview(props.id, interview)
-      .then(()=>{transition(SHOW)})
-      .catch(error => transition(ERROR_SAVE, true));;    
-    
-    }
+    transition(SAVING);
+    props.bookInterview(props.id, interview)
+    .then(()=>{transition(SHOW)})
+    .catch(error => transition(ERROR_SAVE, true));;    
+        
   }
 
   function deleteAppointment() {
@@ -68,7 +56,7 @@ export default function Appointment(props){
  
   return(
  
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
      <Header time={props.time} />
      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
      {mode === CREATE && (
