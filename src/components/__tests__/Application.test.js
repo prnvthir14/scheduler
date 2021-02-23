@@ -9,6 +9,7 @@ import {
  getAllByTestId,
  getByAltText,
  getByPlaceholderText,
+ queryByText
 } from "@testing-library/react";
 import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
@@ -17,6 +18,7 @@ import { fireEvent } from "@testing-library/react";
 import Application from "components/Application";
  
 afterEach(cleanup);
+
 describe("Form", () => {
  getByAltText;
  it("defaults to Monday and changes the schedule when a new day is selected", () => {
@@ -42,13 +44,17 @@ describe("Form", () => {
    expect(getByText("Leopold Silvers")).toBeInTheDocument();
  });
  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
-   const { container } = render(<Application />);
+   
+  const { container,debug } = render(<Application />);
+
    await waitForElement(() => getByText(container, "Archie Cohen"));
    //console.log(prettyDOM(container));
    const appointments = getAllByTestId(container, "appointment");
    //console.log(prettyDOM(appointments));
-   const appointment = getAllByTestId(container, "appointment")[0];
+   const appointment = appointments[0];
    //console.log(prettyDOM(appointment));
+
+  //  console.log('THIS IS DEBUG11111111111111',debug())
  
    fireEvent.click(getByAltText(appointment, "Add"));
  
@@ -58,5 +64,20 @@ describe("Form", () => {
    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
  
    fireEvent.click(getByText(appointment, "Save"));
+
+  //  console.log('THIS IS DEBUG',debug())
+  
+  expect(getByText(appointment,"Saving")).toBeInTheDocument(); 
+  await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
+  //debug()
+
+  const day = getAllByTestId(container, "day").find(day =>
+    queryByText(day, "Monday")
+  );
+  
+  //console.log(prettyDOM(day));
+  expect(getByText(day,"no spots remaining")).toBeInTheDocument(); 
+
+
  });
 });
