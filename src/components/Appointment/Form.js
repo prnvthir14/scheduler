@@ -24,6 +24,7 @@ function cancel () {
 
 const save = function () {
 
+
   props.onSave(name, interviewer);
 
 }
@@ -36,10 +37,11 @@ const save = function () {
      <input
        className="appointment__create-input text--semi-bold"
        name="name" 
+       value={name}
        type="text"
        placeholder="Enter Student Name"
        onChange ={event => setName(event.target.value)}
-       required
+       data-testid="student-name-input"
      />
    </form>
    <InterviewerList interviewers={props.interviewers} value={interviewer}  setInterviewer= {setInterviewer} 
