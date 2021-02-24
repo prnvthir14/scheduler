@@ -72,6 +72,39 @@ export default function useApplicationData() {
     .catch((err)=>{console.log('error LINE 51:', err)});
 
   }
+
+  function editInterview (id, interview) {
+
+    const appointment = {...state.appointments[id], interview: interview };      
+    const appointments = { ...state.appointments, [id]: appointment };
+    
+    let day = getDay(id);
+
+    let new_day = {
+      ...day,
+      
+    };
+    
+
+    let new_days = [...state.days];
+
+    for (let i = 0; i < state.days.length; i++){
+      if(state.days[i].id === new_day.id){
+        new_days.splice(i, 1, new_day)
+      }
+    }
+    
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then(()=> {
+
+
+      setState({ ...state, days: new_days, appointments: appointments});
+      
+
+    })
+    .catch((err)=>{console.log('error LINE 51:', err)});
+
+  }
   
   function cancelInterview(id, interview) {
 
@@ -105,7 +138,7 @@ export default function useApplicationData() {
     });
   }
   
-  return { state, setState, getData, bookInterview, cancelInterview };
+  return { state, setState, getData, bookInterview, cancelInterview,editInterview };
 
 }
  

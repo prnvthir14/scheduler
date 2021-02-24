@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../Button.js" 
 
 export default function Confirm (props) {
-  console.log(props)
+ // console.log(props)
 
   return(
 

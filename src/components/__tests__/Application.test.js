@@ -1,6 +1,5 @@
-import axios from "axios";
-
 import React from "react";
+import axios from "axios";
  
 import {
  render,
@@ -115,11 +114,32 @@ describe("Application", () => {
    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
    // Read the errors because sometimes they say that await cannot be outside of an async function
  });
-
-/* test number five */
-it("shows the save error when failing to save an appointment", () => {
-  axios.put.mockRejectedValueOnce();
-});
-
-
+ it("shows the save error when failing to save an appointment", () => {
+   axios.put.mockRejectedValueOnce();
+ });
+ 
+ it("shows the save error when failing to save an appointment", async () => {
+   const { container, debug } = render(<Application />);
+   // 2. Wait until the text "Archie Cohen" is displayed.
+   // debug()
+   await waitForElement(() => getByText(container, "Archie Cohen"));
+   const appointment = getAllByTestId(
+     container,
+     "appointment"
+   ).find((appointment) => queryByText(appointment, "Archie Cohen"));
+  
+ 
+   fireEvent.click(getByText(appointment, "Confirm"));
+ 
+   expect(
+     getByText(appointment, "There was an error saving your appointment")
+   ).toBeInTheDocument();
+ 
+ 
+ });
+ 
+ it("shows the delete error when failing to delete an existing appointment", () => {
+ 
+ 
+ });
 });

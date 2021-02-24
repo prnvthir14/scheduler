@@ -44,6 +44,22 @@ export default function Appointment(props){
         
   }
 
+  function saveOnEdit (name, interviewer) {
+
+    const interview = {
+
+      student: name,
+      interviewer
+
+    };
+
+    transition(SAVING);
+    props.editInterview(props.id, interview)
+    .then(()=>{transition(SHOW)})
+    .catch(error => transition(ERROR_SAVE, true));;    
+        
+  }
+
   function deleteAppointment() {
     transition(DELETE, true);
     props.cancelInterview(props.id).then(() => {
@@ -88,7 +104,7 @@ export default function Appointment(props){
         name={props.interview.student}
         interviewers={interviwers}
         onCancel={() => back(Show)}
-        onSave={save}
+        onSave={saveOnEdit}
       />
     )}
     {mode === ERROR_SAVE && (
