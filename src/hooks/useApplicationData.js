@@ -52,8 +52,9 @@ export default function useApplicationData() {
       spots: day.spots - 1
     };
     
-    let new_days = state.days
-    
+
+    let new_days = [...state.days];
+
     for (let i = 0; i < state.days.length; i++){
       if(state.days[i].id === new_day.id){
         new_days.splice(i, 1, new_day)
@@ -64,7 +65,7 @@ export default function useApplicationData() {
     .then(()=> {
 
 
-      setState({ ...state, appointments: appointments, days: new_days});
+      setState({ ...state, days: new_days, appointments: appointments});
       
 
     })
@@ -75,13 +76,14 @@ export default function useApplicationData() {
   function cancelInterview(id, interview) {
 
     let day = getDay(id)
-    
+    //console.log('day', day)
     let new_day = {
       ...day,
       spots: day.spots + 1
     };
     
-    let new_days = state.days
+    let new_days = [...state.days];
+
     for (let i = 0; i < state.days.length; i++){
       if(state.days[i].id === new_day.id){
         new_days.splice(i, 1, new_day)
@@ -98,17 +100,15 @@ export default function useApplicationData() {
       };
   
       const appointments = { ...state.appointments, [id]: appointment };
-  
-      setState({ ...state, appointments: appointments, days: new_days });
+      //console.log('NEW DAYS', new_days)
+      setState({ ...state, days: new_days, appointments: appointments});
     });
   }
   
   return { state, setState, getData, bookInterview, cancelInterview };
 
-
 }
  
-// export function spotsRemaining () {
 
 
 
