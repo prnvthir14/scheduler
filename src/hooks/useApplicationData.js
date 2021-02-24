@@ -69,7 +69,7 @@ export default function useApplicationData() {
       
 
     })
-    .catch((err)=>{console.log('error LINE 51:', err)});
+
 
   }
 

@@ -1,6 +1,6 @@
 //Appointment component
 
-import React from "react";
+import React, { useEffect } from "react";
 import "components/Appointment/styles_appointment.scss";
 import Header from "./Header";
 import Empty from "./Empty";
@@ -9,7 +9,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
-import Error from "./Error";
+import Errors from "./Error";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW"; 
@@ -28,6 +28,22 @@ export default function Appointment(props){
 
   const { mode, transition, back } = useVisualMode(props.interview ? SHOW : EMPTY);
 
+  useEffect(()=>{
+    if(props.interview && mode === 'EMPTY'){
+
+      transition(SHOW);
+
+    } 
+    if (props.interview === null && mode === 'SHOW'){
+
+      transition(EMPTY);
+
+    }
+
+  },[props.interview, transition, mode])
+
+
+
   function save (name, interviewer) {
 
     const interview = {
@@ -40,7 +56,9 @@ export default function Appointment(props){
     transition(SAVING);
     props.bookInterview(props.id, interview)
     .then(()=>{transition(SHOW)})
-    .catch(error => transition(ERROR_SAVE, true));;    
+    .catch(error => 
+      {console.log('ERROR INDEX JS 44', error)
+      transition(ERROR_SAVE, true)});;    
         
   }
 
@@ -108,29 +126,18 @@ export default function Appointment(props){
       />
     )}
     {mode === ERROR_SAVE && (
-      <Error
+      <Errors 
         message="There was an error saving your appointment"
         onClose={() => back(Show)}
       />
     )}
     {mode === ERROR_DELETE && (
-      <Error
+      <Errors
         message="There was an error deleting your appointment"
         onClose={() => back(Show)}
       />
     )}
-    {mode === ERROR_SAVE && (
-      <Error
-        message="There was an error saving your appointment"
-        onClose={back}
-      />
-    )}
-    {mode === ERROR_DELETE && (
-      <Error
-        message="There was an error deleting your appointment"
-        onClose={back}
-      />
-    )}
+
 
     </article> 
  )
