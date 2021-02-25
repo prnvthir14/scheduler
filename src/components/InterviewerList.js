@@ -7,15 +7,6 @@ import "components/InterviewListItem.scss";
 import PropTypes from "prop-types";
 
 function InterviewerList(props) {
-  //props contain:
-  // interviewers:array - an array of objects containing the information of each interviewer
-  // interviewer:number - the id of an interviewer
-  // setInterviewer:function - a function that accepts an interviewer id
-
-  //check how he console logs props in vid
-  //console.log('intervierList:',props)
-
-  // ));
 
   const listedItem = props.interviewers.map((interviewer) => {
     return (
@@ -43,15 +34,3 @@ InterviewerList.propTypes = {
 
 export default InterviewerList;
 
-/* template html from DayList.js
-
-<DayListItem
-key = {day.id}
-name={day.name}
-spots={day.spots}
-selected={day.name === props.day}
-setDay={props.setDay}
-/>
-
-return <ul>{listedItem}</ul>
-*/

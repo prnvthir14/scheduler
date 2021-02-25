@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import "components/Application.scss";
 
-//import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 
-// import "src/components/Appointment";
 import Appointment from "components/Appointment";
 
 import {
@@ -15,7 +13,6 @@ import {
 } from "helpers/selectors";
 
 import useVisualMode from "hooks/useVisualMode";
-// import {useApplicationData, spotsRemaining} from "hooks/useApplicationData"
 
 import useApplicationData from "hooks/useApplicationData";
 
@@ -37,7 +34,6 @@ export default function Application(props) {
 
   //map function
   const appointments = dailyAppointments.map((appointment) => {
-    
     const interview = getInterview(state, appointment.interview);
 
     function interviewer() {
@@ -62,12 +58,6 @@ export default function Application(props) {
       />
     );
   });
-
-  // const chooseDay = () => {
-
-  //   setDay(props.day);
-
-  // }
 
   return (
     <main className="layout">
