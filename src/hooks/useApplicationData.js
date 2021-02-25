@@ -129,7 +129,7 @@ export default function useApplicationData() {
     return axios.delete(apptURLId, { interview }).then(() => {
       const appointment = {
         ...state.appointments[id],
-        interview: { ...interview },
+        interview
       };
   
       const appointments = { ...state.appointments, [id]: appointment };
@@ -151,7 +151,3 @@ export default function useApplicationData() {
 
 
 // }
-
-
-
-

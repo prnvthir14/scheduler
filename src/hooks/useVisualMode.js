@@ -19,7 +19,12 @@ export default function useVisualMode(initial){
     
     //   hist = [1,2,3,4]    
     setMode(mode);
-    setHistory([...history,mode]);
+    console.log('MODE',mode)
+    setHistory((history)=> {
+
+      return [...history,mode]
+    
+    });
   
   }
   

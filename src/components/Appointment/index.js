@@ -30,7 +30,7 @@ export default function Appointment(props){
 
   useEffect(()=>{
     if(props.interview && mode === 'EMPTY'){
-
+      //debugger
       transition(SHOW);
 
     } 
@@ -79,8 +79,9 @@ export default function Appointment(props){
   }
 
   function deleteAppointment() {
-    transition(DELETE, true);
+    transition(DELETE);
     props.cancelInterview(props.id).then(() => {
+      //debugger
       transition(EMPTY);
     })
     .catch(error => transition(ERROR_DELETE, true));;
