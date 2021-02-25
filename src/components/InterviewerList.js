@@ -7,7 +7,6 @@ import "components/InterviewListItem.scss";
 import PropTypes from "prop-types";
 
 function InterviewerList(props) {
-
   const listedItem = props.interviewers.map((interviewer) => {
     return (
       <InterviewListItem
@@ -33,4 +32,3 @@ InterviewerList.propTypes = {
 };
 
 export default InterviewerList;
-
